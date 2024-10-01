@@ -1,4 +1,3 @@
-{{-- resources/views/admin/dashboard.blade.php --}}
 @extends('layouts.admin')
 
 @section('content')
@@ -37,6 +36,14 @@
                     <p>{{ $totalStock }}</p>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-md-12 text-center">
+            <a href="{{ route('admin.products.index') }}" class="btn btn-primary">
+                Kelola Produk
+            </a>
         </div>
     </div>
 </div>

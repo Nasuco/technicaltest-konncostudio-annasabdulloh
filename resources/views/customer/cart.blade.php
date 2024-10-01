@@ -33,8 +33,8 @@
                         <tr>
                             <td class="border px-4 py-2">{{ $details['name'] }}</td>
                             <td class="border px-4 py-2 text-center">{{ $details['quantity'] }}</td>
-                            <td class="border px-4 py-2 text-right">${{ number_format($details['price'], 2) }}</td>
-                            <td class="border px-4 py-2 text-right">${{ number_format($details['price'] * $details['quantity'], 2) }}</td>
+                            <td class="border px-4 py-2 text-right">Rp. {{ number_format($details['price'], 2) }}</td>
+                            <td class="border px-4 py-2 text-right">Rp. {{ number_format($details['price'] * $details['quantity'], 2) }}</td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -42,7 +42,7 @@
 
             <div class="mt-6 text-right">
                 <p class="text-xl font-semibold mb-2">Total Quantity: {{ $totalQuantity }}</p>
-                <p class="text-xl font-semibold mb-4">Total Price: ${{ number_format($totalPrice, 2) }}</p>
+                <p class="text-xl font-semibold mb-4">Total Price: Rp. {{ number_format($totalPrice, 2) }}</p>
 
                 <a href="{{ route('customer.checkout') }}" class="bg-green-500 hover:bg-green-700 text-black font-bold py-2 px-4 rounded">
                     Proceed to Checkout

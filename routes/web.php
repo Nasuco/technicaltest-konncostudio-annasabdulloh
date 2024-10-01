@@ -12,10 +12,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -23,9 +19,6 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::middleware(['auth', 'role:customer'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('customer.dashboard');
     Route::get('/products-list', [CustomerProductController::class, 'index'])->name('customer.products.index');
     Route::post('/add-to-cart/{product}', [CustomerProductController::class, 'addToCart'])->name('customer.add_to_cart');
     Route::get('/cart', [CustomerProductController::class, 'cart'])->name('customer.cart');

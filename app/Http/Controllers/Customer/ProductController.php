@@ -49,36 +49,30 @@ class ProductController extends Controller
 
     public function checkout(Request $request)
     {
-        // Ensure the user is authenticated
         if (!auth()->check()) {
             return redirect()->route('customer.products.index')->with('error', 'You must be logged in to proceed to checkout.');
         }
     
-        // Validate that the cart is not empty
         $cart = session()->get('cart', []);
         if (empty($cart)) {
             return redirect()->route('customer.products.index')->with('error', 'Keranjang belanja kosong.');
         }
-    
-        // Validate each item in the cart
+
         foreach ($cart as $product_id => $details) {
             $product = Product::find($product_id);
             if (!$product) {
                 return redirect()->route('customer.cart')->with('error', 'One or more products are no longer available.');
             }
-    
-            // Ensure the product stock is sufficient
+
             if ($details['quantity'] > $product->stock) {
                 return redirect()->route('customer.cart')->with('error', 'Insufficient stock for ' . $product->name . '.');
             }
         }
-    
-        // Calculate total price and create order items
+
         $totalPrice = 0;
         $items = [];
         
         foreach ($cart as $product_id => $details) {
-            // Calculate total price
             if (!is_numeric($details['price']) || !is_numeric($details['quantity'])) {
                 return redirect()->route('customer.cart')->with('error', 'Invalid item details.');
             }
@@ -92,8 +86,7 @@ class ProductController extends Controller
                 'name' => substr($details['name'], 0, 50)
             ];
         }
-    
-        // Validate that total price is greater than zero
+
         if ($totalPrice <= 0) {
             return redirect()->route('customer.cart')->with('error', 'Total price must be greater than zero.');
         }
@@ -105,8 +98,7 @@ class ProductController extends Controller
             'total_price' => $totalPrice,
             'payment_status' => 'pending',
         ]);
-    
-        // Create order items
+
         foreach ($cart as $product_id => $details) {
             OrderItem::create([
                 'order_id' => $order->id,
@@ -115,8 +107,7 @@ class ProductController extends Controller
                 'price' => $details['price'],
             ]);
         }
-    
-        // Setup Midtrans configuration
+
         Config::$serverKey = config('services.midtrans.serverKey');
         Config::$isProduction = config('services.midtrans.isProduction');
         Config::$isSanitized = true;
@@ -133,8 +124,7 @@ class ProductController extends Controller
             ],
             'item_details' => $items
         ];
-    
-        // Handle payment initiation
+
         try {
             $snapToken = Snap::getSnapToken($params);
             $order->update(['snap_token' => $snapToken]);
@@ -145,5 +135,4 @@ class ProductController extends Controller
         return view('customer.checkout', compact('order', 'snapToken'));
     }
     
-
 }

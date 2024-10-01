@@ -28,7 +28,6 @@ class MidtransController extends Controller
             $order = Order::where('order_id', $notif->order_id)->firstOrFail();
             Log::info('Midtrans Notification received for order: ' . $notif->order_id);
 
-            // Update the order based on the transaction status
             $order->updatePaymentStatus($notif->transaction_status); 
 
             Log::info('Updated Order: ', $order->fresh()->toArray());
@@ -52,7 +51,6 @@ class MidtransController extends Controller
         Log::info('Order details: ', $order->toArray());
         Log::info('Transaction Status: ' . $order->transaction_status);
 
-        // Check the transaction status instead of is_paid
         if ($order->transaction_status === 'settlement') {
             return view('customer.payment_success', compact('order'));
         }

@@ -1,18 +1,18 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Daftar Produk') }}
-        </h2>
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
                     <div class="container">
-                        <h1 class="text-3xl font-bold mb-4 text-center">Available Products</h1>
-                        <p class="text-gray-600 text-center mb-6">Explore our collection and find what you need.</p>
-
+                        <!-- Tombol Keranjang -->
+                        <div class="mb-4 text-right">
+                            <a href="{{ route('customer.cart') }}" class="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-full">
+                                Lihat Keranjang
+                            </a>
+                        </div>
+                        
+                        <!-- Daftar Produk -->
+                        <h1 class="text-3xl font-bold mb-4 text-center">Produk Tersedia</h1>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                             @foreach($products as $product)
                                 <div class="transform transition duration-500 hover:scale-105">
@@ -27,12 +27,12 @@
                                                 <form action="{{ route('customer.add_to_cart', $product->id) }}" method="POST">
                                                     @csrf
                                                     <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-full">
-                                                        Add to Cart
+                                                        Tambah ke Keranjang
                                                     </button>
                                                 </form>
                                             @else
                                                 <button disabled class="bg-gray-400 text-white font-bold py-2 px-4 rounded-full cursor-not-allowed">
-                                                    Out of Stock
+                                                    Tidak ada Stok
                                                 </button>
                                             @endif
                                         </div>
