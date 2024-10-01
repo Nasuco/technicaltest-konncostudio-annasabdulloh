@@ -9,7 +9,7 @@ Berikut adalah akun email dan password yang dapat digunakan untuk login ke siste
 |------------------------|-----------------|
 | admin@gmail.com        | admin123        |
 
-### Akun User
+### Akun Customer
 | Email                  | Password        |
 |------------------------|-----------------|
 | customer@gmail.com     | customer123     |
